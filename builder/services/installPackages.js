@@ -4,10 +4,13 @@ const path=require('path');
 async function installPackages(taskId){
     return new Promise((res,rej)=>{
         
-        const command = `npm install`;
-        const curpath=process.cwd();
-        const clonepath=path.join(curpath,"builder","projects",taskId);
-        const execution = spawn(command,{cwd:clonepath,shell:true});
+        const command = `cd builder/projects/${taskId} && npm install`;
+        
+        const execution = spawn(command,{shell:true});
+        execution.on('error',(err)=>{
+            console.error(`Error in installing packages: ${err}`);
+            rej(`Error in installing packages: ${err}`);
+        });
         let output = '';
         execution.stdout.on('data',(data)=>{
             const dataStr=data.toString();

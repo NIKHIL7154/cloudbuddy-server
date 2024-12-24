@@ -5,20 +5,20 @@ async function cloneProject(url,taskId){
     return new Promise((res,rej)=>{
         
         
-        const curpath=process.cwd();
         
-        const clonePath=path.join(curpath,"builder","projects");
-        console.log(`Cloning at path: ${clonePath}`);
         
-        const command = 'git';
-        const args = ['clone', url, taskId];
+        
+        console.log(`Cloning at path: ${process.cwd()}/projects/${taskId}`);
+        
+        const command = `cd builder/projects && git clone ${url} ${taskId}`;
+        
 
         // Spawn process
-        const execution = spawn(command, args, { cwd: clonePath, shell: true });
+        const execution = spawn(command,{shell: true });
 
         execution.on('error',(err)=>{
             console.error(`Error in cloning: ${err}`);
-            rej(err);
+            rej(`Error in cloning: ${err}`);
         });
         let output = '';
         execution.stdout.on('data',(data)=>{

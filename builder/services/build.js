@@ -4,10 +4,13 @@ const path=require('path');
 async function buildProject(taskId){
     return new Promise((res,rej)=>{
         
-        const command = `npm run build`;
-        const curpath=process.cwd();
-        const clonepath=path.join(curpath,"builder","projects",taskId);
-        const execution = spawn(command,{cwd:clonepath,shell:true});
+        const command = `cd builder/projects/${taskId} && npm run build`;
+        
+        const execution = spawn(command,{shell:true});
+        execution.on('error',(err)=>{
+            console.error(`Error in Building: ${err}`);
+            rej(`Error in Building: ${err}`);
+        });
         let output = '';
         execution.stdout.on('data',(data)=>{
             const dataStr=data.toString();

@@ -3,7 +3,7 @@ const { default: axios } = require("axios");
 const buildProject = require("./services/build");
 const cloneProject = require("./services/clone");
 const installPackages = require("./services/installPackages");
-const uploadProject = require("./services/uploadProject");
+//const uploadProject = require("./services/uploadProject");
 
 const redis = require('redis');
 const publisher = redis.createClient();
@@ -45,6 +45,7 @@ function red() {
     })();
 
 }
+red()
 
 async function ssd() {
     try {
@@ -64,11 +65,11 @@ async function ssd() {
 
 async function checkUpload(){
     try {
-        const data=await uploadProject("balbaso");
+        //const data=await uploadProject("balbaso");
         console.log(data);
     } catch (error) {
         console.log(error)
     }
 }
 
-checkUpload();
+//checkUpload();
